@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paymob Integration</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <button id="payButton">Pay Now</button>
+
+    <script>
+        $('#payButton').click(function() {
+            $.ajax({
+                url: 'paymob_integration.php',
+                method: 'POST',
+                success: function(response) {
+                    if (response.error) {
+                        console.error('Error:', response.error);
+                        alert('Error: ' + response.error);
+                    } else {
+                        var paymentKey = response.payment_key;
+                        window.location.href = 'https://accept.paymobsolutions.com/api/acceptance/iframes/YOUR_IFRAME_ID?payment_token=' + paymentKey;
+                    }
+                },
+                error: function(error) {
+                    console.error('AJAX Error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
